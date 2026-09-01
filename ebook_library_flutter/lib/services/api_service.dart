@@ -96,7 +96,8 @@ class ApiService {
   Future<Ebook> getEbook(int id) async {
     try {
       final response = await _dio.get('/ebooks/$id');
-      return Ebook.fromJson(response.data as Map<String, dynamic>);
+      final data = response.data as Map<String, dynamic>;
+      return Ebook.fromJson((data['ebook'] ?? data) as Map<String, dynamic>);
     } on DioException catch (e) {
       throw _handleDioError(e);
     }
@@ -132,7 +133,8 @@ class ApiService {
         data:            formData,
         onSendProgress:  onSendProgress,
       );
-      return Ebook.fromJson(response.data as Map<String, dynamic>);
+      final data = response.data as Map<String, dynamic>;
+      return Ebook.fromJson((data['ebook'] ?? data) as Map<String, dynamic>);
     } on DioException catch (e) {
       throw _handleDioError(e);
     }
