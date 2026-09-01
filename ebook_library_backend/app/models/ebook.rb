@@ -35,12 +35,9 @@ class Ebook < ApplicationRecord
 
   scope :search_by_query, ->(query) {
     term = "%#{query.downcase}%"
-    where(
-      "LOWER(title) LIKE ? OR LOWER(author) LIKE ? OR LOWER(ebooks.title) LIKE ?",
-      term, term, term
-    ).or(
-      joins(file_attachment: :blob)
-        .where("LOWER(active_storage_blobs.filename) LIKE ?", term)
+    left_joins(file_attachment: :blob).where(
+      "LOWER(ebooks.title) LIKE :t OR LOWER(ebooks.author) LIKE :t OR LOWER(active_storage_blobs.filename) LIKE :t",
+      t: term
     )
   }
 

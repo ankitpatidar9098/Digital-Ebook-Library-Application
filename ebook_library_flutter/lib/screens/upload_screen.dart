@@ -1,6 +1,4 @@
 // lib/screens/upload_screen.dart
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,10 +20,8 @@ class _UploadScreenState extends State<UploadScreen> {
   final _authorController = TextEditingController();
   final _descController   = TextEditingController();
 
-  File? _selectedFile;
-  File? _selectedCover;
-  String? _selectedFileName;
-  String? _selectedCoverName;
+  PlatformFile? _selectedFile;
+  PlatformFile? _selectedCover;
   bool  _isUploading = false;
 
   @override
@@ -143,7 +139,7 @@ class _UploadScreenState extends State<UploadScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              _selectedFileName ?? '',
+                              _selectedFile?.name ?? '',
                               style: const TextStyle(
                                 fontFamily:  'Georgia',
                                 color:       AppTheme.onBackground,
@@ -161,7 +157,7 @@ class _UploadScreenState extends State<UploadScreen> {
                       ),
                       IconButton(
                         icon:      const Icon(Icons.close, color: AppTheme.onSurface, size: 18),
-                        onPressed: () => setState(() { _selectedFile = null; _selectedFileName = null; }),
+                        onPressed: () => setState(() { _selectedFile = null; }),
                       ),
                     ],
                   )
@@ -268,7 +264,7 @@ class _UploadScreenState extends State<UploadScreen> {
                 child: _selectedCover != null
                     ? ClipRRect(
                         borderRadius: BorderRadius.circular(7),
-                        child: Image.file(_selectedCover!, fit: BoxFit.cover),
+                        child: Image.memory(_selectedCover!.bytes!, fit: BoxFit.cover),
                       )
                     : const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -286,12 +282,12 @@ class _UploadScreenState extends State<UploadScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    _selectedCoverName ?? '',
+                    _selectedCover?.name ?? '',
                     style: const TextStyle(fontFamily: 'Georgia', color: AppTheme.onBackground, fontSize: 12),
                     overflow: TextOverflow.ellipsis,
                   ),
                   TextButton(
-                    onPressed: () => setState(() { _selectedCover = null; _selectedCoverName = null; }),
+                    onPressed: () => setState(() { _selectedCover = null; }),
                     child: const Text('Remove', style: TextStyle(fontFamily: 'Georgia', color: AppTheme.error, fontSize: 12)),
                   ),
                 ],
@@ -310,21 +306,20 @@ class _UploadScreenState extends State<UploadScreen> {
       type:       FileType.custom,
       allowedExtensions: ['pdf', 'epub'],
       allowMultiple: false,
+      withData: true,
     );
 
-    if (result != null && result.files.single.path != null) {
-      final file = File(result.files.single.path!);
-      final name = result.files.single.name;
+    if (result != null && result.files.isNotEmpty) {
+      final file = result.files.single;
 
       // Auto-fill title from filename
       if (_titleController.text.isEmpty) {
-        final baseName = name.replaceAll(RegExp(r'\.(pdf|epub)$', caseSensitive: false), '');
+        final baseName = file.name.replaceAll(RegExp(r'\.(pdf|epub)$', caseSensitive: false), '');
         _titleController.text = baseName.replaceAll('_', ' ').replaceAll('-', ' ');
       }
 
       setState(() {
-        _selectedFile     = file;
-        _selectedFileName = name;
+        _selectedFile = file;
       });
     }
   }
@@ -333,11 +328,11 @@ class _UploadScreenState extends State<UploadScreen> {
     final result = await FilePicker.platform.pickFiles(
       type:         FileType.image,
       allowMultiple: false,
+      withData: true,
     );
-    if (result != null && result.files.single.path != null) {
+    if (result != null && result.files.isNotEmpty) {
       setState(() {
-        _selectedCover     = File(result.files.single.path!);
-        _selectedCoverName = result.files.single.name;
+        _selectedCover = result.files.single;
       });
     }
   }
@@ -370,8 +365,8 @@ class _UploadScreenState extends State<UploadScreen> {
     }
   }
 
-  String _getFileSize(File file) {
-    final size = file.lengthSync();
+  String _getFileSize(PlatformFile file) {
+    final size = file.size;
     if (size >= 1024 * 1024) return '${(size / (1024 * 1024)).toStringAsFixed(1)} MB';
     if (size >= 1024)        return '${(size / 1024).toStringAsFixed(1)} KB';
     return '$size B';

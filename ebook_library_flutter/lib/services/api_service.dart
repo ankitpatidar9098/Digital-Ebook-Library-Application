@@ -1,6 +1,5 @@
 // lib/services/api_service.dart
-import 'dart:io';
-
+import 'package:file_picker/file_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart' as p;
@@ -21,8 +20,7 @@ class ApiException implements Exception {
 }
 
 class ApiService {
-  static const String _baseUrl = 'http://10.0.2.2:3000/api'; // Android emulator
-  // static const String _baseUrl = 'http://localhost:3000/api'; // iOS or desktop
+  static const String _baseUrl = 'http://127.0.0.1:3000/api';
 
   late final Dio _dio;
 
@@ -106,11 +104,11 @@ class ApiService {
 
   /// Upload a new ebook file with metadata
   Future<Ebook> uploadEbook({
-    required File   file,
+    required PlatformFile file,
     required String title,
     String?         author,
     String?         description,
-    File?           coverImage,
+    PlatformFile?   coverImage,
     ProgressCallback? onSendProgress,
   }) async {
     try {
@@ -118,14 +116,14 @@ class ApiService {
         'ebook[title]':  title,
         if (author?.isNotEmpty == true) 'ebook[author]': author,
         if (description?.isNotEmpty == true) 'ebook[description]': description,
-        'ebook[file]': await MultipartFile.fromFile(
-          file.path,
-          filename: p.basename(file.path),
+        'ebook[file]': MultipartFile.fromBytes(
+          file.bytes!,
+          filename: file.name,
         ),
         if (coverImage != null)
-          'ebook[cover_image]': await MultipartFile.fromFile(
-            coverImage.path,
-            filename: p.basename(coverImage.path),
+          'ebook[cover_image]': MultipartFile.fromBytes(
+            coverImage.bytes!,
+            filename: coverImage.name,
           ),
       });
 

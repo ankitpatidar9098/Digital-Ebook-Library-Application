@@ -9,7 +9,7 @@ module Api
     # GET /api/ebooks
     # Supports: ?sort=title|author|recent&page=N&per_page=N
     def index
-      ebooks = Ebook.all
+      ebooks = Ebook.with_attached_file.with_attached_cover_image
 
       ebooks = case params[:sort]
                when "title"  then ebooks.by_title
@@ -32,7 +32,7 @@ module Api
       query = params[:q].to_s.strip
       return render json: { ebooks: [], pagination: {} } if query.blank?
 
-      ebooks = Ebook.search_by_query(query)
+      ebooks = Ebook.search_by_query(query).with_attached_file.with_attached_cover_image
 
       ebooks = case params[:sort]
                when "title"  then ebooks.by_title

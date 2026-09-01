@@ -1,6 +1,5 @@
 // lib/providers/ebook_provider.dart
-import 'dart:io';
-
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 
 import '../models/ebook.dart';
@@ -67,11 +66,11 @@ class EbookProvider extends ChangeNotifier {
   Future<void> refresh() => loadEbooks();
 
   Future<Ebook?> uploadEbook({
-    required File   file,
+    required PlatformFile file,
     required String title,
     String?         author,
     String?         description,
-    File?           coverImage,
+    PlatformFile?   coverImage,
   }) async {
     _isUploading   = true;
     _uploadProgress = 0.0;
