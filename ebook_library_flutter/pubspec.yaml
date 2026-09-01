@@ -1,0 +1,69 @@
+name: ebook_library_flutter
+description: Digital Ebook Library — A beautiful shelf-style ebook reader app
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # HTTP client
+  dio: ^5.4.3
+  
+  # State management
+  provider: ^6.1.2
+  
+  # PDF reading
+  syncfusion_flutter_pdfviewer: ^26.2.14
+  
+  # EPUB reading
+  epub_view: ^3.3.0
+  
+  # File picking
+  file_picker: ^8.0.7
+  
+  # File system access
+  path_provider: ^2.1.3
+  path: ^1.9.0
+  
+  # Open files
+  open_filex: ^4.4.1
+  
+  # Image caching
+  cached_network_image: ^3.3.1
+  
+  # Loading skeleton animations
+  shimmer: ^3.0.0
+  
+  # Animations
+  lottie: ^3.1.0
+  
+  # Permissions (Android/iOS)
+  permission_handler: ^11.3.1
+  
+  # URL launcher
+  url_launcher: ^6.3.0
+  
+  # Intl for date formatting
+  intl: ^0.19.0
+  
+  # Icons
+  cupertino_icons: ^1.0.8
+  flutter_svg: ^2.0.10
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  mocktail: ^1.0.4
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/animations/
+    - assets/fonts/

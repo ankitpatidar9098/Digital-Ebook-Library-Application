@@ -1,0 +1,8 @@
+# See https://flutter.dev/docs/development/tools/sdk/release-notes
+# for upgrade guidance.
+
+# This file is usually committed to version control.
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
