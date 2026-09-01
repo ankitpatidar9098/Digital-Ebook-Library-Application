@@ -1,0 +1,16 @@
+.bundle/
+log/*.log
+tmp/
+storage/
+.sass-cache
+.byebug_history
+.env
+*.sqlite3
+*.sqlite3-journal
+node_modules/
+public/packs
+public/packs-test
+yarn-error.log
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key

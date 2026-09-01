@@ -1,0 +1,45 @@
+source "https://rubygems.org"
+
+ruby "~> 3.3"
+
+# Core Rails
+gem "rails", "~> 7.2.0"
+
+# Database
+gem "sqlite3", "~> 2.0"
+
+# Web server
+gem "puma", ">= 5.0"
+
+# File handling & storage
+gem "image_processing", "~> 1.2"
+
+# JSON serialization
+gem "active_model_serializers", "~> 0.10"
+
+# CORS support for Flutter
+gem "rack-cors"
+
+# Pagination
+gem "pagy", "~> 9.0"
+
+# MIME type detection
+gem "marcel", "~> 1.0"
+
+# Bootsnap for faster boot
+gem "bootsnap", require: false
+
+# Windows timezone data (required on Windows — no system zoneinfo)
+gem "tzinfo-data", platforms: %i[windows jruby]
+
+group :development, :test do
+  gem "debug", platforms: %i[mri windows], require: "debug/prelude"
+  gem "rspec-rails", "~> 7.0"
+  gem "factory_bot_rails"
+  gem "faker"
+  gem "shoulda-matchers", "~> 6.0"
+end
+
+group :development do
+  gem "rubocop-rails-omakase", require: false
+end
