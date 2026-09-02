@@ -20,7 +20,7 @@ class ApiException implements Exception {
 }
 
 class ApiService {
-  static const String _baseUrl = 'http://127.0.0.1:3000/api';
+  static const String _baseUrl = 'http://192.168.1.2:3000/api';
 
   late final Dio _dio;
 
@@ -70,7 +70,8 @@ class ApiService {
 
       final response = await _dio.get('/ebooks', queryParameters: queryParams);
       final data = response.data as Map<String, dynamic>;
-      final list = data['ebooks'] as List<dynamic>;
+      final dynamic ebooksData = data['ebooks'];
+      final list = (ebooksData is Map ? ebooksData['ebooks'] : ebooksData) as List<dynamic>;
       return list.map((e) => Ebook.fromJson(e as Map<String, dynamic>)).toList();
     } on DioException catch (e) {
       throw _handleDioError(e);
@@ -85,7 +86,8 @@ class ApiService {
 
       final response = await _dio.get('/ebooks/search', queryParameters: params);
       final data = response.data as Map<String, dynamic>;
-      final list = data['ebooks'] as List<dynamic>;
+      final dynamic ebooksData = data['ebooks'];
+      final list = (ebooksData is Map ? ebooksData['ebooks'] : ebooksData) as List<dynamic>;
       return list.map((e) => Ebook.fromJson(e as Map<String, dynamic>)).toList();
     } on DioException catch (e) {
       throw _handleDioError(e);
