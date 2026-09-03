@@ -488,7 +488,7 @@ AI tools were used as **development assistance**, while the implementation was r
 ## Tools Used
 
 - **Antigravity IDE** — AI-assisted coding and development
-- **Reasoning model** — architecture discussions and implementation guidance
+
 
 ## How AI Was Used
 
@@ -497,11 +497,7 @@ AI assistance was used for:
 1. Discussing architecture and technical trade-offs
 2. Generating some boilerplate code
 3. Suggesting edge cases
-4. Helping structure tests
-5. Assisting with Flutter UI alignment and styling
-6. Suggesting color combinations for the frontend
-7. Debugging specific frontend issues
-8. Reviewing possible implementation approaches
+
 
 ## Backend Contribution
 
