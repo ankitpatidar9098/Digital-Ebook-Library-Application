@@ -19,16 +19,18 @@ class EbookSerializer < ActiveModel::Serializer
   def file_url
     return nil unless object.file.attached?
 
-    rails_blob_url(object.file, only_path: false)
-  rescue StandardError
+    Rails.application.routes.url_helpers.rails_blob_path(object.file, only_path: true)
+  rescue StandardError => e
+    Rails.logger.error("File URL Error: #{e.message}")
     nil
   end
 
   def cover_url
     return nil unless object.cover_image.attached?
 
-    rails_blob_url(object.cover_image, only_path: false)
-  rescue StandardError
+    Rails.application.routes.url_helpers.rails_blob_path(object.cover_image, only_path: true)
+  rescue StandardError => e
+    Rails.logger.error("Cover URL Error: #{e.message}")
     nil
   end
 

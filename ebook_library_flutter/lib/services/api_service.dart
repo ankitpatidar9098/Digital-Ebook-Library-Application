@@ -20,7 +20,8 @@ class ApiException implements Exception {
 }
 
 class ApiService {
-  static const String _baseUrl = 'http://192.168.1.2:3000/api';
+  static const String hostUrl = 'http://127.0.0.1:3000';
+  static const String _baseUrl = '$hostUrl/api';
 
   late final Dio _dio;
 

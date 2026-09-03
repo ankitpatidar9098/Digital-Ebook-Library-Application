@@ -170,7 +170,7 @@ class _BookSpineState extends State<_BookSpine>
             ClipRRect(
               borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
               child: CachedNetworkImage(
-                imageUrl:   ebook.coverUrl!,
+                imageUrl:   ebook.fullCoverUrl!,
                 fit:        BoxFit.cover,
                 width:      double.infinity,
                 height:     double.infinity,

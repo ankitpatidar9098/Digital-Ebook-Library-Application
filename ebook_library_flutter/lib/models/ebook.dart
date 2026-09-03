@@ -1,5 +1,6 @@
 // lib/models/ebook.dart
 import 'package:intl/intl.dart';
+import '../services/api_service.dart';
 
 class Ebook {
   final int id;
@@ -15,6 +16,9 @@ class Ebook {
   final String? fileUrl;
   final String? coverUrl;
   final String? filename;
+
+  String? get fullFileUrl => fileUrl != null ? '${ApiService.hostUrl}$fileUrl' : null;
+  String? get fullCoverUrl => coverUrl != null ? '${ApiService.hostUrl}$coverUrl' : null;
 
   const Ebook({
     required this.id,

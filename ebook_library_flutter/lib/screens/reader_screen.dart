@@ -63,7 +63,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
     try {
       final dio = Dio();
       final response = await dio.get<List<int>>(
-        widget.ebook.fileUrl!,
+        widget.ebook.fullFileUrl!,
         options: Options(responseType: ResponseType.bytes, followRedirects: true),
       );
       

@@ -97,7 +97,7 @@ class _EbookDetailScreenState extends State<EbookDetailScreen> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: CachedNetworkImage(
-                      imageUrl: ebook.coverUrl!,
+                      imageUrl: ebook.fullCoverUrl!,
                       fit:      BoxFit.cover,
                       placeholder: (_, __) => Container(color: colors[0]),
                       errorWidget: (_, __, ___) => _PlaceholderCover(ebook: ebook, colors: colors),
@@ -269,7 +269,7 @@ class _EbookDetailScreenState extends State<EbookDetailScreen> {
   }
 
   Future<void> _downloadBook(BuildContext context, Ebook ebook) async {
-    if (ebook.fileUrl == null) {
+    if (ebook.fullFileUrl == null) {
       _showSnack(context, 'No file available to download', isError: true);
       return;
     }
