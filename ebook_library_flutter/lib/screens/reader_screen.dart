@@ -93,15 +93,11 @@ class _ReaderScreenState extends State<ReaderScreen> {
   }
 
   void _startControlsTimer() {
-    _controlsTimer?.cancel();
-    _controlsTimer = Timer(const Duration(seconds: 4), () {
-      if (mounted) setState(() => _showControls = false);
-    });
+    // Disabled auto-hide for better Web UX
   }
 
   void _toggleControls() {
-    setState(() => _showControls = !_showControls);
-    if (_showControls) _startControlsTimer();
+    // Disabled toggle for better Web UX
   }
 
   void _toggleFullscreen() {
@@ -280,7 +276,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               // Page progress slider
-              if (_totalPages > 0)
+              if (_totalPages > 1)
                 Row(
                   children: [
                     Text(
@@ -289,7 +285,7 @@ class _ReaderScreenState extends State<ReaderScreen> {
                     ),
                     Expanded(
                       child: Slider(
-                        value:    _currentPage.toDouble(),
+                        value:    _currentPage.toDouble().clamp(1.0, _totalPages.toDouble()),
                         min:      1,
                         max:      _totalPages.toDouble(),
                         onChanged: (value) {

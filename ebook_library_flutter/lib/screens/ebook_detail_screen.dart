@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/ebook.dart';
 import '../providers/ebook_provider.dart';
@@ -271,6 +273,16 @@ class _EbookDetailScreenState extends State<EbookDetailScreen> {
   Future<void> _downloadBook(BuildContext context, Ebook ebook) async {
     if (ebook.fullFileUrl == null) {
       _showSnack(context, 'No file available to download', isError: true);
+      return;
+    }
+
+    if (kIsWeb) {
+      final url = Uri.parse(ebook.fullFileUrl!);
+      if (await canLaunchUrl(url)) {
+        await launchUrl(url);
+      } else {
+        if (mounted) _showSnack(context, 'Could not launch download link', isError: true);
+      }
       return;
     }
 
